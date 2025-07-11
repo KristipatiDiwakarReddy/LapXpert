@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laptop Specification Predictor</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f2f4f8;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+      margin: 0px;
+      overflow-x: hidden;
+    }
+
+    html {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .container {
+      box-sizing: border-box;
+      max-width: 500px;
+      width: 100%;
+      padding: 20px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 600px) {
+      .main-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 0;
+      }
+      .site-title {
+        font-size: 1.7rem;
+      }
+      .back-btn {
+        position: static;
+        margin-bottom: 8px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+      color: #555;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .main-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      margin-bottom: 30px;
+    }
+    .site-title {
+      flex: 1;
+      text-align: center;
+      font-size: 1.7rem;
+      color: #007bff;
+      margin: 0;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .back-btn {
+      position: absolute;
+      left: 24px;
+      background: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      padding: 8px 16px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .back-btn:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 600px) {
+      .main-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 0;
+      }
+      .site-title {
+        font-size: 1.7rem;
+      }
+      .back-btn {
+        position: static;
+        margin-bottom: 8px;
+        width: fit-content;
+      }
+    }
+
+    .loader-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.85);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loader-text {
+      font-size: 1.1rem;
+      color: #333;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <h1 class="site-title">LapXpert</h1>
+  </header>
+  <div id="loader" class="loader-overlay" style="display:none;">
+  <div class="loader-content">
+    <div class="spinner"></div>
+    <div class="loader-text" id="loaderText">Understanding the requirements...</div>
+  </div>
+</div>
+
+  <div class="container">
+    <h1>Enter Your Laptop Requirements</h1>
+    <form id="specForm" action="/predict" method="POST">
+      <label for="intended_use">Intended Use:</label>
+      <select id="intended_use" name="intended_use" required  onchange="updatePriceOptions()">
+        <option value="Business">Business</option>
+        <option value="Development">Development</option>
+        <option value="Student">Student</option>
+        <option value="Multimedia">Multimedia</option>
+        <option value="Gaming">Gaming</option>
+      </select>
+
+      <label for="screen_resolution">Screen Resolution:</label>
+      <select id="screen_resolution" name="screen_resolution" required>
+        <option value="1080p">1080p</option>
+        <option value="720p">720p</option>
+        <option value="4K">4K</option>
+      </select>
+
+      <label for="battery_life">Battery Life:</label>
+      <select id="battery_life" name="battery_life" required>
+        <option value="2-3hrs">2-3hrs</option>
+        <option value="3-4hrs">3-4hrs</option>
+        <option value="4-6hrs">4-6hrs</option>
+        <option value="6+hrs">6+hrs</option>
+      </select>
+
+      <label for="os">Operating System:</label>
+      <select id="os" name="os" required onchange="updatePriceOptions()">
+        <option value="Windows">Windows</option>
+        <option value="Mac OS">Mac OS</option>
+      </select>
+
+      <div id="price-group">
+        <label for="price">Price Range:</label>
+        <select id="price" name="price"></select>
+      </div>
+
+      <button type="submit">Get Specifications</button>
+    </form>
+  </div>
+
+  <script>
+    function updatePriceOptions() {
+      const use = document.getElementById('intended_use').value;
+      const os = document.getElementById('os').value;
+      const priceSelect = document.getElementById('price');
+      const priceGroup = document.getElementById('price-group');
+
+      if (os === 'Mac OS') {
+        priceGroup.style.display = 'none';
+        // Set a default value for Mac OS users
+        const macOption = document.createElement('option');
+        macOption.value = 100001;  // Use a clearly high value
+        macOption.textContent = 'Above ₹100K';
+        macOption.selected = true;
+        priceSelect.innerHTML = '';  // Clear any existing options
+        priceSelect.appendChild(macOption);
+        return;
+      }
+
+      // Show the price group and populate it
+      priceGroup.style.display = 'block';
+      priceSelect.innerHTML = ''; // Clear existing options
+
+      let options = [];
+      if (use === 'Gaming') {
+        options = [
+          { value: 70000, label: 'Under ₹70K' },
+          { value: 80000, label: 'Under ₹80K' },
+          { value: 90000, label: 'Under ₹90K' },
+          { value: 100000, label: 'Under ₹100K' },
+          { value: 100001, label: 'Above ₹100K' }
+        ];
+      } else {
+        options = [
+          { value: 50000, label: 'Under ₹50K' },
+          { value: 60000, label: 'Under ₹60K' },
+          { value: 70000, label: 'Under ₹70K' },
+          { value: 80000, label: 'Under ₹80K' },
+          { value: 90000, label: 'Under ₹90K' },
+          { value: 100000, label: 'Under ₹100K' },
+          { value: 100001, label: 'Above ₹100K' }
+        ];
+      }
+
+      options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.label;
+
+        // Default to Above ₹100K
+        if (opt.value === 100001) option.selected = true;
+
+        priceSelect.appendChild(option);
+    });
+  }
+  // Run once on load to initialize price dropdown
+  window.onload = updatePriceOptions;
+  const loaderMessages = [
+    "🧠 Understanding the Requirements...",
+    "💡 Generating the Specifications...",
+    "🔍 Reasoning the Generated Specifications...",
+    "📝 Generating the Feedback Notes...",
+    "🌐 Searching for Laptops Online...",
+    "⏳ This may take 30 seconds to 2 minutes. Please be patient..."
+  ];
+
+  let messageIndex = 0;
+  let loaderInterval;
+
+  document.getElementById('specForm').addEventListener('submit', function () {
+    document.getElementById('loader').style.display = 'flex';
+    document.getElementById('loaderText').textContent = loaderMessages[0];
+    messageIndex = 1;
+
+    loaderInterval = setInterval(() => {
+      if (messageIndex < loaderMessages.length) {
+        document.getElementById('loaderText').textContent = loaderMessages[messageIndex];
+        messageIndex++;
+      } else {
+        // Repeat last message
+        document.getElementById('loaderText').textContent = loaderMessages[loaderMessages.length - 1];
+      }
+    }, 10000); // 10 seconds interval
+  });
+  // Optional: If you ever want to stop the interval after redirect
+  // clearInterval(loaderInterval);
+
+  </script>
+</body>
+</html>

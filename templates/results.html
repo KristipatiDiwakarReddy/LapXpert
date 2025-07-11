@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Recommended Laptops</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0px;
+      overflow-x: hidden;
+    }
+
+    html {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .specs {
+      background: #e8f5e9;
+      padding: 20px;
+      border-left: 6px solid #4caf50;
+      border-radius: 8px;
+      margin: 0px 10px 30px 10px;
+    }
+
+    .specs h2 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+
+    .laptop-section{
+      margin: 30px;
+    }
+
+    .laptop-section h3 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .laptop-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      flex-direction: row;
+    }
+
+    .notes{
+      margin-top: 2rem;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px; transition: transform 0.2s;
+      width: 100%;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 15px;
+      width: calc(50% - 20px);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    .main-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      margin-bottom: 30px;
+    }
+
+    .site-title {
+      flex: 1;
+      text-align: center;
+      font-size: 1.7rem;
+      color: #007bff;
+      margin: 0;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 24px;
+      background: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      padding: 8px 16px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 900px) {
+      .laptop-grid {
+        flex-direction: column;
+      }
+      .card {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .laptop-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .card {
+        width: 100%;
+        max-width: 400px;
+      }
+      .main-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 0;
+        min-width: 250px
+      }
+      .site-title {
+        font-size: 1.7rem !important;
+        margin-left: 30px;
+      }
+      .back-btn {
+        width: fit-content;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <a href="/" class="back-btn">&larr;</a>
+    <h1 class="site-title">LapXpert</h1>
+  </header>
+
+  <div class="specs">
+    <h2>Predicted Laptop Specifications</h2>
+    <p><strong>Processor:</strong> {{ specs["Processor"] }}</p>
+    <p><strong>RAM and Storage:</strong> {{ specs["RAM and Storage"] }}</p>
+    <p><strong>Graphics Card:</strong> {{ specs["Graphics Card"] }}</p>
+    <p><strong>Display:</strong> {{ specs["Display"] }}</p>
+    <p><strong>Battery:</strong> {{ specs["Battery"] }}</p>
+  </div>
+
+  <div class="laptop-section" style="display: flex; flex-direction: column; align-items: center;">
+    <h3>Recommended Laptops for the Above Specs:</h3>
+    <div class="laptop-grid" style="justify-content: center; flex-wrap: nowrap;">
+      {% if laptops|length == 0 %}
+        <p>No laptops found matching the specifications.</p>
+      {% endif %}
+      {% for laptop in laptops %}
+        <div class="card">
+          <img src="{{ laptop.image }}" alt="Laptop Image" />
+          <a href="{{ laptop.url }}" target="_blank">{{ laptop.title }}</a>
+          <p><strong>Price:</strong> {{ laptop.price }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    {% if session.notes %}
+      <div class='notes'>
+        <h3>📝 Notes:</h3>
+        <p>{{ session.notes }}</p>
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

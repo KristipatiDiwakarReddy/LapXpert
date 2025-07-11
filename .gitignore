@@ -1,0 +1,58 @@
+# Python Bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# VSCode settings
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Environment variables
+.env
+*.env
+
+# Flask/Middleware logs
+*.log
+
+# Compiled files
+*.egg
+*.egg-info/
+dist/
+build/
+
+# PyInstaller
+*.spec
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Pycache inside subfolders
+**/__pycache__/
+
+# SQLite database
+*.sqlite3
+*.db
+
+# Cache
+.cache/
+pip-wheel-metadata/
+
+# AWS credentials or any secret config
+credentials.json
+
+# Node.js (in case frontend assets are added later)
+node_modules/
+npm-debug.log*
+
+# Static build folders (if generated separately)
+staticfiles/
