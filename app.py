@@ -147,5 +147,5 @@ def results():
     return render_template('results.html', specs=specs, laptops=laptops)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
