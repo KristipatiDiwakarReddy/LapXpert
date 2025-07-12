@@ -103,7 +103,6 @@ def predict():
 
         # Fetch Amazon results
 
-        predicted_specs = {'Processor': 'Intel Core i5 (11th Gen or newer) or AMD Ryzen 5 5500U/5600U', 'RAM and Storage': '8GB RAM (16GB recommended for multitasking) + 256GB/512GB SSD', 'Graphics Card': 'Integrated (Intel Iris Xe or AMD Radeon Graphics). No dedicated GPU needed for business tasks.', 'Display': '14" or 15.6" 1080p IPS panel (non-glossy recommended for office use)', 'Battery': '2-3 hours of real-world use (expect lower runtime with heavy multitasking/video calls)', 'Notes': 'Trade-off: Battery life is below average for business laptops (typical models offer 8-10hrs). Recommend frequent charger access or portable power bank. Prioritize lighter Ultrabooks (e.g., Dell XPS 13, Lenovo ThinkPad X/T series) for portability. Upgrade RAM/SSD if budget allows for future-proofing.'}
         keywords = f"{predicted_specs.get('Processor', '')} {predicted_specs.get('RAM and Storage', '')} laptop"
 
         if price <= 100000:
